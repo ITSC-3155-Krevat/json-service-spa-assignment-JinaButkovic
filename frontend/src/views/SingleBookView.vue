@@ -15,7 +15,7 @@ export default {
   name: 'SingleBooksView',
   data() {
     return {
-      book: {bookId: 1, title: 'Harry Potter', author: 'JK Rowling', rating: 4}
+      book: null
     };
   },
   computed: {
@@ -23,7 +23,15 @@ export default {
       return this.$route.params.bookId;
     },
   },
+  created(){
+    this.getSingleBook();
+  },
   methods: {
+    async getSingleBook(){
+      const bookResponse = await fetch(`http://localhost:5000/books/${this.bookId}`);
+      const bookJson = await bookResponse.json();
+      this.book = bookJson;
+    }
     handleEditClick() {
       this.$router.push(`/books/${this.book.bookId}/edit`);
     },

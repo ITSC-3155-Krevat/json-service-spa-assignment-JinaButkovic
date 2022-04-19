@@ -43,7 +43,23 @@ export default {
   },
   methods: {
     async handleCreateBook() {
-      this.$router.push('/books');
+      const payload = {
+        title: this.title,
+        author: this.author,
+        rating: this.rating,
+      };
+
+      const newBookResponse = await fetch('http://localhost:5000/books',{
+        method: 'POST',
+        body: JSON.stringify(payload)
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const newBookJson = await newBookResponse.json();
+
+      this.$router.push(`/books/${newBookJson.bookId}`);
     },
   },
 };

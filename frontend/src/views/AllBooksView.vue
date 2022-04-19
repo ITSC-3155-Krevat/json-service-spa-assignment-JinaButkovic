@@ -23,8 +23,18 @@ export default {
   name: 'AllBooksView',
   data() {
     return {
-      books: [{bookId: 1, title: 'Harry Potter', author: 'JK Rowling', rating: 4}]
+      books: []
     };
+  }, 
+  created(){
+    this.getAllBooks();
+  },
+  methods: {
+    async getAllBooks(){
+      const booksResponse = await fetch('http://localhost:5000/books');
+      const booksJson = await booksResponse.json();
+      this.books = booksJson;   
+    },
   },
 };
 </script>
